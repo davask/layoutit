@@ -1,8 +1,8 @@
 function supportstorage() {
-	if (typeof window.localStorage=='object') 
+	if (typeof window.localStorage=='object')
 		return true;
 	else
-		return false;		
+		return false;
 }
 
 function handleSaveLayout() {
@@ -15,7 +15,7 @@ function handleSaveLayout() {
 	}
 }
 
-var layouthistory; 
+var layouthistory;
 function saveLayout(){
 	var data = layouthistory;
 	if (!data) {
@@ -34,10 +34,10 @@ function saveLayout(){
 	}
 	layouthistory = data;
 	//console.log(data);
-	/*$.ajax({  
-		type: "POST",  
-		url: "/build/saveLayout",  
-		data: { layout: $('.demo').html() },  
+	/*$.ajax({
+		type: "POST",
+		url: "/build/saveLayout",
+		data: { layout: $('.demo').html() },
 		success: function(data) {
 			//updateButtonsVisibility();
 		}
@@ -45,20 +45,20 @@ function saveLayout(){
 }
 
 function downloadLayout(){
-	
-	$.ajax({  
-		type: "POST",  
-		url: "/build/downloadLayout",  
-		data: { layout: $('#download-layout').html() },  
+
+	$.ajax({
+		type: "POST",
+		url: "/build/downloadLayout",
+		data: { layout: $('#download-layout').html() },
 		success: function(data) { window.location.href = '/build/download'; }
 	});
 }
 
 function downloadHtmlLayout(){
-	$.ajax({  
-		type: "POST",  
-		url: "/build/downloadLayout",  
-		data: { layout: $('#download-layout').html() },  
+	$.ajax({
+		type: "POST",
+		url: "/build/downloadLayout",
+		data: { layout: $('#download-layout').html() },
 		success: function(data) { window.location.href = '/build/downloadHtml'; }
 	});
 }
@@ -77,10 +77,10 @@ function undoLayout() {
 		return true;
 	}
 	return false;
-	/*$.ajax({  
-		type: "POST",  
-		url: "/build/getPreviousLayout",  
-		data: { },  
+	/*$.ajax({
+		type: "POST",
+		url: "/build/getPreviousLayout",
+		data: { },
 		success: function(data) {
 			undoOperation(data);
 		}
@@ -102,10 +102,10 @@ function redoLayout() {
 	}
 	return false;
 	/*
-	$.ajax({  
-		type: "POST",  
-		url: "/build/getPreviousLayout",  
-		data: { },  
+	$.ajax({
+		type: "POST",
+		url: "/build/getPreviousLayout",
+		data: { },
 		success: function(data) {
 			redoOperation(data);
 		}
@@ -328,7 +328,6 @@ $(document).ready(function() {
 	CKEDITOR.disableAutoInline = true;
 	restoreData();
 	var contenthandle = CKEDITOR.replace( 'contenteditor' ,{
-		language: 'zh-cn',
 		contentsCss: ['css/bootstrap-combined.min.css'],
 		allowedContent: true
 	});
