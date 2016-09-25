@@ -1,0 +1,71 @@
+www-mysql:
+  ports:
+  - 911:3306/tcp
+  environment:
+    MYSQL_ROOT_PASSWORD: PHkE42
+    MYSQL_DATABASE: PHkE42
+    MYSQL_USER: dwl
+    MYSQL_PASSWORD: PHkE42
+  domainname: layoutit.davaskweblimited.com
+  labels:
+    io.rancher.sidekicks: www-data
+    io.rancher.scheduler.affinity:host_label: dwl=dwlComPrivate
+  tty: true
+  hostname: layoutit.davaskweblimited.com
+  image: mysql:latest
+  volumes:
+  - /home/dwl/projects/dwl-com-layoutit/env/com-layoutit/db/mysql:/docker-entrypoint-initdb.d
+  volumes_from:
+  - www-data
+  stdin_open: true
+www-app:
+  ports:
+  - 910:80/tcp
+  - 912:22/tcp
+  domainname: layoutit.davaskweblimited.com
+  environment:
+    DWL_USER_NAME: dwl
+    DWL_USER_PASSWD: PHkE42
+    DWL_SSH_ACCESS: 'true'
+    DWL_USER_ID: '1000'
+  labels:
+    io.rancher.sidekicks: www-files
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label: dwl=dwlComPrivate
+  tty: true
+  image: davask/d-php:5.6-a2.4-u14.04
+  hostname: layoutit.davaskweblimited.com
+  links:
+  - 'www-mysql:'
+  volumes:
+  - /home/dwl/projects/dwl-com-layoutit/env/com-layoutit/http/site/sites-available:/etc/apache2/sites-available
+  volumes_from:
+  - www-files
+  stdin_open: true
+www-files:
+  environment:
+    DWL_USER_NAME: dwl
+    DWL_USER_PASSWD: PHkE42
+    DWL_SSH_ACCESS: 'true'
+    DWL_USER_ID: '1000'
+  labels:
+    io.rancher.container.start_once: 'true'
+    io.rancher.scheduler.affinity:host_label: dwl=dwlComPrivate
+  image: davask/d-ubuntu:14.04
+  hostname: layoutit.davaskweblimited.com
+  links:
+  - 'www-mysql:'
+  volumes:
+  - /home/dwl/projects/dwl-com-layoutit/env/com-layoutit/files:/home/dwl/files
+www-data:
+  environment:
+    DWL_USER_NAME: dwl
+    DWL_USER_PASSWD: PHkE42
+    DWL_SSH_ACCESS: 'true'
+    DWL_USER_ID: '1000'
+  labels:
+    io.rancher.container.start_once: 'true'
+    io.rancher.scheduler.affinity:host_label: dwl=dwlComPrivate
+  image: davask/d-ubuntu:14.04
+  volumes:
+  - /home/dwl/projects/dwl-com-layoutit/env/com-layoutit/data/mysql:/var/lib/mysql
